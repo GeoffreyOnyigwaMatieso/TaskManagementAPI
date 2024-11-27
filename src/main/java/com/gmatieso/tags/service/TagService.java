@@ -1,26 +1,27 @@
 package com.gmatieso.tags.service;
 
-
+import com.gmatieso.tags.dto.TagDTO;
 import com.gmatieso.tags.model.Tag;
 import com.gmatieso.tags.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class TagService {
+
     @Autowired
     private TagRepository tagRepository;
 
-
-    public List<Tag> getAllTags() {
-        return tagRepository.findAll();
+    public TagDTO getTagById(Long id) {
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tag not found"));
+        return convertToDTO(tag);
     }
 
-    public Tag getTagDetails(Long id) {
-        return tagRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tag not found with id: " + id));
+    private TagDTO convertToDTO(Tag tag) {
+        TagDTO dto = new TagDTO();
+        dto.setId(tag.getId());
+        dto.setName(tag.getName());
+        return dto;
     }
-
 }
