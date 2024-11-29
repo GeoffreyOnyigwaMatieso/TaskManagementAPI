@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,7 +57,7 @@ public class TaskService {
         return mapToDTO(updatedTask);
     }
 
-    public void deleteTask(Long id) {
+    public String deleteTask(Long id) {
         // Check if the task exists before deleting
         Optional<Task> task = taskRepository.findById(id);
         if (task.isEmpty()) {
@@ -65,6 +65,9 @@ public class TaskService {
         }
 
         taskRepository.deleteById(id);
+
+        // Return a success message with the deleted task ID
+        return "Task with id " + id + " deleted successfully.";
     }
 
     private Set<Tag> getOrCreateTags(Set<String> tagNames) {

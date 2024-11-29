@@ -38,8 +38,8 @@ public class TaskController {
 
     // DELETE endpoint to delete a task by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+        String message = taskService.deleteTask(id);
+        return ResponseEntity.ok(message);
     }
 }
