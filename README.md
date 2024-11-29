@@ -43,7 +43,7 @@ The **Task Management System** is a Spring Boot application designed to manage t
      {
        "id": 1,
        "title": "Task Title",
-       "completed: true,
+       "completed": true,
        "tags": ["sleeping", "eating"]
      }
      ```
