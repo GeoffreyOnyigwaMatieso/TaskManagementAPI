@@ -13,8 +13,8 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TagDTO> getTagById(@PathVariable Long id) {
-        return ResponseEntity.ok(tagService.getTagById(id));
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<TagDTO> getTagById(@PathVariable Long id) {
+//        return ResponseEntity.ok(tagService.getTagById(id));
+//    }
 }
