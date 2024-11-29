@@ -9,19 +9,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("api/tasks")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
+    // POST endpoint to create a new task
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
-        return ResponseEntity.ok(taskService.createTask(taskDTO));
+        TaskDTO createdTask = taskService.createTask(taskDTO);
+        return ResponseEntity.ok(createdTask);
     }
 
+    // GET endpoint to get all tasks
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
+        List<TaskDTO> tasks = taskService.getAllTasks();
+        return ResponseEntity.ok(tasks);
+    }
+
+    // PUT endpoint to update an existing task
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
+        TaskDTO updatedTask = taskService.updateTask(id, taskDTO);
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    // DELETE endpoint to delete a task by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
     }
 }
