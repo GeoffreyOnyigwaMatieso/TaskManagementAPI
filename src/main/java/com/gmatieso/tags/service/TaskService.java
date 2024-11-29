@@ -22,6 +22,11 @@ public class TaskService {
     private TagRepository tagRepository;
 
     public TaskDTO createTask(TaskDTO taskDTO) {
+        // Check if a task with the same title already exists
+        if (taskRepository.findAll().stream().anyMatch(task -> task.getTitle().equalsIgnoreCase(taskDTO.getTitle()))) {
+            throw new TaskAlreadyExistsException("Task with title '" + taskDTO.getTitle() + "' already exists.");
+        }
+
         Task task = new Task();
         task.setTitle(taskDTO.getTitle());
         task.setCompleted(taskDTO.isCompleted());
@@ -54,4 +59,3 @@ public class TaskService {
         return dto;
     }
 }
-
