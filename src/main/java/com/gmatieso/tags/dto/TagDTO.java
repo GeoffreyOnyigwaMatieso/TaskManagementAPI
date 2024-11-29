@@ -1,5 +1,6 @@
 package com.gmatieso.tags.dto;
 
+
 import lombok.Data;
 
 import java.util.Set;
@@ -8,5 +9,5 @@ import java.util.Set;
 public class TagDTO {
     private Long id;
     private String name;
-    private Set<String> tasks;
+    private Set<String> tasks
 }
