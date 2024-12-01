@@ -5,11 +5,13 @@ import com.gmatieso.tags.model.Tag;
 import com.gmatieso.tags.model.Task;
 import com.gmatieso.tags.repository.TagRepository;
 import com.gmatieso.tags.repository.TaskRepository;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,17 +51,15 @@ public class TaskService {
     public List<TaskDTO> getAllTasks() {
         logger.info("Fetching all tasks from the database...");
         try {
-            List<TaskDTO> tasks = taskRepository.findAll()
-                    .stream()
-                    .map(this::mapToDTO)
-                    .collect(Collectors.toList());
-            logger.info("Successfully fetched {} tasks.", tasks.size());
-            return tasks;
+            List<Task> tasks = taskRepository.findAll();
+            tasks.forEach(task -> Hibernate.initialize(task.getTags()));
+            return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
         } catch (Exception ex) {
             logger.error("Error while fetching tasks: {}", ex.getMessage(), ex);
             throw ex;
         }
     }
+
 
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         logger.info("Attempting to update task with ID: {}", id);
@@ -116,7 +116,8 @@ public class TaskService {
         dto.setId(task.getId());
         dto.setTitle(task.getTitle());
         dto.setCompleted(task.isCompleted());
-        dto.setTags(task.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));
+        Set<Tag> tags = new HashSet<>(task.getTags());
+        dto.setTags(tags.stream().map(Tag::getName).collect(Collectors.toSet()));
         return dto;
     }
 }

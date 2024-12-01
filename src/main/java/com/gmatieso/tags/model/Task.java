@@ -21,7 +21,7 @@ public class Task {
 
     private boolean completed;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "task_tag",
             joinColumns = @JoinColumn(name = "task_id"),
