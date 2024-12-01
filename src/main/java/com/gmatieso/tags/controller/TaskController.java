@@ -63,7 +63,6 @@ public class TaskController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Long id) {
         logger.info("Received request to delete task with ID: {}", id);
