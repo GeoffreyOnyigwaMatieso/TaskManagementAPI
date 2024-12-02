@@ -1,12 +1,15 @@
 package com.gmatieso.tags.controller;
 
-import com.gmatieso.tags.dto.TagDTO;
+
+import com.gmatieso.tags.model.Tag;
 import com.gmatieso.tags.service.TagService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("api/tags")
@@ -15,17 +18,11 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    // Endpoint to get all tags
+    @Operation(summary = "Get all tags")
+    @ApiResponse(responseCode = "200", description = "Return list of all tags")
     @GetMapping
-    public ResponseEntity<List<TagDTO>> getAllTags() {
-        List<TagDTO> tags = tagService.getAllTags();
-        return ResponseEntity.ok(tags);
+    public List<Tag>getAllTags(){
+        return tagService.getAllTags();
     }
 
-    // Endpoint to get details of a single tag by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<TagDTO> getTagDetails(@PathVariable Long id) {
-        TagDTO tagDetails = tagService.getTagDetails(id);
-        return ResponseEntity.ok(tagDetails);
-    }
 }

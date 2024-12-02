@@ -27,11 +27,11 @@ public class Task {
     @Schema(description = "status")
     private boolean completed;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "task_tag",
-//            joinColumns = @JoinColumn(name = "task_id"),
-//            inverseJoinColumns = @JoinColumn(name = "tag_id")
-//    )
-//    private Set<Tag> tags;
+    @ManyToMany
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 }
