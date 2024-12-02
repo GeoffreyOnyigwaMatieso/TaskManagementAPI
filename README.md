@@ -10,7 +10,6 @@ The **Task Management System** is a Spring Boot application designed to manage t
 - **CRUD Operations for Tasks**: Create, Read, Update, and Delete tasks.
 - **Tag Management**: Assign tags to tasks, ensuring better categorization and organization.
 - **Relational Data Handling**: Manage relationships between tasks and tags seamlessly.
-- **DTO Support**: Use of Data Transfer Objects (DTOs) to transfer structured data between the client and the server.
 
 ## Technologies Used
 
@@ -89,14 +88,6 @@ The **Task Management System** is a Spring Boot application designed to manage t
 | `id`    | Long    | Unique identifier    |
 | `name`  | String  | Name of the tag      |
 
-### TaskDTO
-| Field   | Type            | Description                       |
-|---------|-----------------|-----------------------------------|
-| `id`    | Long            | Unique identifier of the task    |
-| `title` | String          | Title of the task                |
-| `completed`| boolean         | Current status of the task       |
-| `tags`  | Set<String>     | Tags associated with the task    |
-
 ## Running the Application
 
 ### Prerequisites
@@ -113,27 +104,27 @@ The **Task Management System** is a Spring Boot application designed to manage t
    ```bash
    cd task-management-system
    ```
-3. Build the project:
+3. Check the `application.properties` file for database configuration. Ensure the settings match your local database setup.
+4. Build the project:
    ```bash
    mvn clean install
    ```
-4. Run the application:
+5. Run the application:
    ```bash
    mvn spring-boot:run
    ```
-5. Access the application at:  
+6. Access the application at:  
    `http://localhost:8080`
+
+### Swagger Documentation
+- The application provides Swagger API documentation, accessible at:  
+  `http://localhost:8080/swagger-ui.html`  
+
+## Branching Strategy
+
+- **Default Branch**: I have currently set `develop` as our default branch. Ensure that all feature branches are based on `develop` and create pull requests targeting `develop` for new changes.
 
 ## Testing the Application
 
-Use tools like **Postman** or **cURL** to test the API endpoints. Alternatively, Swagger/OpenAPI can be integrated for interactive API testing.
+Use tools like **Postman** or **cURL** to test the API endpoints. Alternatively, Swagger/OpenAPI can be used for interactive API testing.
 
-## Future Enhancements
-
-- User authentication and authorization.
-- Add pagination and filtering for tasks and tags.
-- Implement soft deletion for tasks.
-- Replace the in-memory database with a production-ready database like PostgreSQL.
-- Add support for task priorities and deadlines.
-
----
