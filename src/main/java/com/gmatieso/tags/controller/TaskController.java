@@ -1,12 +1,16 @@
 package com.gmatieso.tags.controller;
 
-import com.gmatieso.tags.dto.TaskDTO;
+
+import com.gmatieso.tags.model.Task;
 import com.gmatieso.tags.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/tasks")
@@ -14,31 +18,40 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    // POST endpoint to create a new task
+
+    @Operation(summary = "Create new task")
+    @ApiResponse(responseCode = "201", description = "Task created successfully")
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
-        TaskDTO createdTask = taskService.createTask(taskDTO);
-        return ResponseEntity.ok(createdTask);
+    public Task createTask(@RequestBody  Task task) {
+       return taskService.createTask(task);
     }
 
-    // GET endpoint to get all tasks
+    @Operation(summary = "Get All Task", description = "Return list of all task")
+    @ApiResponse(responseCode = "200", description = "Task created successfully")
     @GetMapping
-    public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        List<TaskDTO> tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+    public  List<Task>getAllTask(){
+        return  taskService.getAllTask();
     }
 
-    // PUT endpoint to update an existing task
-    @PutMapping("/{id}")
-    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
-        TaskDTO updatedTask = taskService.updateTask(id, taskDTO);
-        return ResponseEntity.ok(updatedTask);
+    @Operation(summary = "Get Task By Id", description = "Return a single Task")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Task Found"),
+            @ApiResponse(responseCode = "404", description = "Task Not Found")
+    })
+    @GetMapping("/{id}")
+    public Optional<Task> getTaskById(@PathVariable int id){
+        return taskService.getTaskById(id);
     }
 
-    // DELETE endpoint to delete a task by id
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
-        String message = taskService.deleteTask(id);
-        return ResponseEntity.ok(message);
+
+    @Operation(summary = "Delete All Task")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Task Deleted Successfully"),
+            @ApiResponse(responseCode = "404", description = "Task Not Found")
+    })
+    @DeleteMapping
+    public void deleteAllTask(){
+         taskService.deleteAllTask();
     }
+
 }
