@@ -2,6 +2,8 @@ package com.gmatieso.tags.controller;
 
 import com.gmatieso.tags.dto.TaskDTO;
 import com.gmatieso.tags.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ public class TaskController {
     private TaskService taskService;
 
     // POST endpoint to create a new task
+    @Operation(summary = "Create new task")
+    @ApiResponse(responseCode = "201", description = "User created successfully")
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
         TaskDTO createdTask = taskService.createTask(taskDTO);
