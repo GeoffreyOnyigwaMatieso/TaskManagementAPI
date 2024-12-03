@@ -5,6 +5,7 @@ import com.gmatieso.tags.model.Tag;
 import com.gmatieso.tags.model.Task;
 import com.gmatieso.tags.repository.TagRepository;
 import com.gmatieso.tags.repository.TaskRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,25 @@ public class TaskService {
     private TagRepository tagRepository;
 
 
-     public  Task createTask(Task task) {
-         return taskRepository.save(task);
-     }
+    @Transactional
+    public Task createTask(Task task) {
+        Set<Tag> savedTags = task.getTags().stream()
+                .map(tag -> {
+                    if (tag.getId() == null) {
+                        return tagRepository.save(tag); // Save new Tag
+                    } else {
+                        return tagRepository.findById(Math.toIntExact(tag.getId()))
+                                .orElseThrow(() -> new RuntimeException("Tag not found with id: " + tag.getId()));
+                    }
+                })
+                .collect(Collectors.toSet());
 
-     public Optional<Task> getTaskById(Integer id){
+        task.setTags(savedTags); // Associate saved tags
+        return taskRepository.save(task);
+    }
+
+
+    public Optional<Task> getTaskById(Long id){
          return  taskRepository.findById(id);
      }
 
