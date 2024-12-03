@@ -39,7 +39,7 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task Not Found")
     })
     @GetMapping("/{id}")
-    public Optional<Task> getTaskById(@PathVariable int id){
+    public Optional<Task> getTaskById(@PathVariable Long id){
         return taskService.getTaskById(id);
     }
 
